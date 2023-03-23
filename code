@@ -1,0 +1,13 @@
+int n, r, total = 0;
+
+printf("Enter the number of chefs: ");
+scanf("%d", &n);
+
+printf("Enter the maximum ingredients each chef can claim: ");
+scanf("%d", &r);
+
+total = n*r; // calculating total ingredients
+
+printf("Total number of ingredients in the kitchen: %d\n", total);
+
+return 0;
