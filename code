@@ -1,13 +1,60 @@
-int n, r, total = 0;
+#include <stdio.h>
 
-printf("Enter the number of chefs: ");
-scanf("%d", &n);
+int main() {
+    int n, r, i, j, k, totalIngredients = 0;
 
-printf("Enter the maximum ingredients each chef can claim: ");
-scanf("%d", &r);
+    printf("Enter the number of chefs: ");
+    scanf("%d", &n);
 
-total = n*r; // calculating total ingredients
+    printf("Enter the number of ingredients each chef can claim at most: ");
+    scanf("%d", &r);
 
-printf("Total number of ingredients in the kitchen: %d\n", total);
+    int claimed[n][r];
+    for (i = 0; i < n; i++) {
+        printf("Enter the ingredients claimed by chef %d: ", i + 1);
+        for (j = 0; j < r; j++) {
+            scanf("%d", &claimed[i][j]);
+        }
+    }
 
-return 0;
+    int available[r];
+    for (i = 0; i < r; i++) {
+        available[i] = 0;
+    }
+
+    int claimCount[n];
+    for (i = 0; i < n; i++) {
+        claimCount[i] = 0;
+    }
+
+    int deadlock = 1;
+    for (i = 0; i < n; i++) {
+        int claimedCount = 0;
+        for (j = 0; j < r; j++) {
+            if (claimed[i][j] != 0) {
+                claimedCount++;
+                if (available[j] == 0) {
+                    available[j] = 1;
+                    claimCount[i]++;
+                }
+            }
+        }
+        if (claimedCount > claimCount[i]) {
+            deadlock = 0;
+        }
+    }
+
+    if (deadlock) {
+        printf("Deadlock-free scenario.\n");
+        for (i = 0; i < r; i++) {
+            if (available[i] == 1) {
+                totalIngredients++;
+            }
+        }
+        printf("Total number of ingredients in the kitchen: %d\n", totalIngredients);
+    } else {
+        printf("Deadlock scenario.\n");
+    }
+
+    return 0;
+}
